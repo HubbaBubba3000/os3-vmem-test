@@ -38,11 +38,11 @@ func main() {
 	printMem("Начало")
 
 	block := make([]byte, blockSize)
-
-	if os.Args[0] == "madvise" {
-		// Просим ядро не использовать huge pages для этой области памяти.
+	if len(os.Args) > 1 && os.Args[1] == "madvise" {
 		if err := syscall.Madvise(block, syscall.MADV_NOHUGEPAGE); err != nil {
-			fmt.Println("madvise(MADV_NOHUGEPAGE):", err)
+			fmt.Println("madvise(MADV_NOHUGEPAGE): ошибка:", err)
+		} else {
+			fmt.Println("madvise(MADV_NOHUGEPAGE): выполнен успешно")
 		}
 	}
 	printMem("После выделения")
